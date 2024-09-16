@@ -8,7 +8,9 @@ namespace AccesoDatos_Proyecto_SistemasInteligentes.Context;
 public partial class ProyectoSistemasInteligentesContext : DbContext
 {
     
-   
+   public tuhermana()
+   {
+   }
     public ProyectoSistemasInteligentesContext()
     {
     }
