@@ -12,7 +12,7 @@ public partial class ProyectoSistemasInteligentesContext : DbContext
     public ProyectoSistemasInteligentesContext()
     {
     }
-
+//Edicion
     public ProyectoSistemasInteligentesContext(DbContextOptions<ProyectoSistemasInteligentesContext> options)
         : base(options)
     {
