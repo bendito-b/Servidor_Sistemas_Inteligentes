@@ -8,14 +8,12 @@ namespace AccesoDatos_Proyecto_SistemasInteligentes.Context;
 public partial class ProyectoSistemasInteligentesContext : DbContext
 {
     
-   public void tuhermana()
-   {
-   }
+
     public ProyectoSistemasInteligentesContext()
     {
 
     }
-//Edicion
+
     public ProyectoSistemasInteligentesContext(DbContextOptions<ProyectoSistemasInteligentesContext> options)
         : base(options)
     {
