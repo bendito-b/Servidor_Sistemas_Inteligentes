@@ -7,8 +7,7 @@ namespace AccesoDatos_Proyecto_SistemasInteligentes.Context;
 
 public partial class ProyectoSistemasInteligentesContext : DbContext
 {
-    //HOLA ESTO ES UNA PRUEBA
-    //PRUEBA UWU
+    
    
     public ProyectoSistemasInteligentesContext()
     {
