@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    //Pruebita 
-    //Cambio pruebita 
+
     [Route("api")]
     [ApiController]
     public class PruebaController : ControllerBase
