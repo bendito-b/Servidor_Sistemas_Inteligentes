@@ -16,6 +16,8 @@
         public Hechos()
         {
             // Inicialización de las listas
+
+            //ACTIVIDAD GEOMECÁNICA
             Sedimentarios = new List<Act_Geome>
             {
                 new Act_Geome(2000.0, 2.6, 350.0, 2.0, 300.0), // Plomo
@@ -32,6 +34,7 @@
                 new Act_Geome(2200.0, 2.7, 150.0, 1.8, 300.0)  // Carbón
             };
 
+            //COMPOSICIÓN GEOQUÍMICA
             Residuales = new List<Comp_Geoq>
             {
                 new Comp_Geoq(30.0, 12.0, 5.5, 1.2, 50.0), // Estaño
@@ -45,7 +48,8 @@
                 new Comp_Geoq(100.0, 40.0, 4.5, 3.0, 80.0), // Tungsteno
                 new Comp_Geoq(60.0, 25.0, 5.0, 2.0, 75.0)  // Carbón
             };
-
+            
+            //CONDUCTIVIDAD Y MAGNETISMO
             Lateritas = new List<Cond_Magne>
             {
                 new Cond_Magne(50.0, 3.5, 30.0, 15.0, 50.0), // Cobre
@@ -58,6 +62,7 @@
                 new Cond_Magne(100.0, 3.5, 18.0, 12.0, 35.0)  // Hierro
             };
 
+            //POTENCIAL HIDROTERMAL
             Andosoles = new List<Pot_Hidro>
             {
                 new Pot_Hidro(6.1, 200.0, 45.0, 30.0, 65.0), // Cobre
