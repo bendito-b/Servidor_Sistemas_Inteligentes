@@ -1,3 +1,5 @@
+using WebApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,7 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(policyBuilder => policyBuilder.AddDefaultPolicy
                         (policy => policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod()));
 
-
+builder.Services.AddSingleton<Hechos>();
 //
 var app = builder.Build();
 
