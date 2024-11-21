@@ -19,26 +19,35 @@ namespace WebApi.Models
             {
                 return new BadRequestObjectResult("Tipo de suelo no válido.");
             }
-            double puntajeMaximo = double.MinValue;
-            string mineralPredicho = string.Empty;
+            Dictionary<string, double> puntajesMinerales = new Dictionary<string, double>();
             foreach (var hecho in hSeleccionado)
             {
                 double puntaje = CalcularCompatibilidad(datos, hecho.Value);
-                if (puntaje > puntajeMaximo)
-                {
-                    puntajeMaximo = puntaje;
-                    mineralPredicho = hecho.Key;
-                }
+                puntajesMinerales[hecho.Key] = puntaje;
             }
-            if (string.IsNullOrEmpty(mineralPredicho))
+            if (puntajesMinerales.Count == 0)
             {
                 return new BadRequestObjectResult("No se pudo predecir un mineral.");
             }
-            return new OkObjectResult(new
+            double puntajeTotal = puntajesMinerales.Values.Sum();
+            if (puntajeTotal == 0)
             {
-                mineral = mineralPredicho,
-                puntaje = puntajeMaximo
-            });
+                return new BadRequestObjectResult("Los puntajes calculados son 0, no se puede determinar la probabilidad.");
+            }
+            var resultadosPorcentaje = puntajesMinerales
+                .OrderByDescending(kvp => kvp.Value)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => Math.Round((kvp.Value / puntajeTotal) * 100, 2)
+                );
+            var mineralesOrdenados = resultadosPorcentaje
+                .Select(kvp => new
+                {
+                    mineral = kvp.Key,
+                    probabilidad = kvp.Value
+                })
+                .ToList();
+            return new OkObjectResult(mineralesOrdenados);
         }
 
         private static double CalcularCompatibilidad<T>(T datos, T hecho)
@@ -63,8 +72,9 @@ namespace WebApi.Models
             {
                 double val1 = Convert.ToDouble(valorDatos);
                 double val2 = Convert.ToDouble(valorHecho);
-                // Calcular la diferencia absoluta normalizada
-                return 1.0 / (1 + Math.Abs(val1 - val2));
+
+                // Penaliza fuertemente las grandes diferencias, enfatiza más las similitudes
+                return Math.Exp(-Math.Abs(val1 - val2) * 2);
             }
             return 0.0;
         }
