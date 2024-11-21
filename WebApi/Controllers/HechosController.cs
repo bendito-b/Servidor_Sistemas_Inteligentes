@@ -9,123 +9,92 @@ namespace WebApi.Controllers
     public class HechosController : ControllerBase
     {
         private readonly Hechos hechos;
-        // Constructor donde inyectamos la clase BaseDeConocimientos
         public HechosController(Hechos h)
         {
             hechos = h;
         }
 
-        // MOTOR DE INFERENCIA
+        // MOTOR DE INFERENCIA : ACTIVIDAD GEOMECÁNICA
         [HttpPost("ActividadGeomecanica")]
         public IActionResult ActividadGeomecanica([FromBody] Act_Geome datos)
         {
-            // Obtener el tipo de suelo desde los encabezados HTTP
-            //string tipoSueloHead = Request.Headers["tip_sue"];
-            string tipoSueloHead = "1";
-
-            // Asegurarse de que el encabezado esté presente y es válido
-            if (string.IsNullOrEmpty(tipoSueloHead) || !int.TryParse(tipoSueloHead, out int tipoSuelo))
+            int tiSue = ObtenerTipoSuelo();
+            if (tiSue == -1)
             {
-                return BadRequest("Tipo de suelo no proporcionado o inválido.");
+                return BadRequest("Tipo de suelo no proporcionado.");
             }
-
-            // Crear un diccionario para almacenar los puntajes de cada mineral
-            Dictionary<string, double> puntajes = new Dictionary<string, double>();
-
-            // Elegir el conjunto de hechos correspondiente según el tipo de suelo
-            List<Act_Geome> hechosSeleccionados = tipoSuelo switch
+            var hTiSue = new Dictionary<int, Dictionary<string, Act_Geome>>()
             {
-                1 => hechos.Sedimentarios, // Si tipo_suelo es 1, usamos los Sedimentarios
-                2 => hechos.Vertisoles,    // Si tipo_suelo es 2, usamos los Vertisoles
-                _ => new List<Act_Geome>() // Si no es 1 ni 2, no seleccionamos ningún tipo válido
+                { 1, hechos.Sedimentarios },
+                { 2, hechos.Vertisoles }
             };
+            var hSelec = MotorInferencia.SeleccionarHechos(tiSue, hTiSue);
+            return MotorInferencia.CalcularInferencia(datos, hSelec);
+        }
 
-            // Si no se seleccionó un conjunto de hechos válido
-            if (!hechosSeleccionados.Any())
+        // MOTOR DE INFERENCIA : COMPOSICIÓN GEOQUÍMICA
+        [HttpPost("ComposicionGeoquimica")]
+        public IActionResult ComposicionGeoquimica([FromBody] Comp_Geoq datos)
+        {
+            int tiSue = ObtenerTipoSuelo();
+            if (tiSue == -1)
             {
-                return BadRequest("Tipo de suelo no válido.");
+                return BadRequest("Tipo de suelo no proporcionado.");
             }
-
-            // Evaluar la compatibilidad con cada grupo de minerales en la base de hechos (Hechos)
-            double puntajeMaximo = double.MinValue;
-            string mineralPredicho = string.Empty;
-
-            foreach (var hecho in hechosSeleccionados)
+            var hTiSue = new Dictionary<int, Dictionary<string, Comp_Geoq>>()
             {
-                // Calcular puntajes de compatibilidad para el mineral
-                double puntaje = CalcularCompatibilidad(datos, hecho);
+                { 1, hechos.Residuales },
+                { 2, hechos.Oxisoles }
+            };
+            var hSelec = MotorInferencia.SeleccionarHechos(tiSue, hTiSue);
+            return MotorInferencia.CalcularInferencia(datos, hSelec);
+        }
 
-                // Si el puntaje es el mayor hasta ahora, actualizamos el mineral predicho
-                if (puntaje > puntajeMaximo)
-                {
-                    puntajeMaximo = puntaje;
-                    mineralPredicho = ObtenerMineral(hecho); // Esta función puede devolver el nombre del mineral asociado con el hecho
-                }
+        // MOTOR DE INFERENCIA : CONDUCTIVIDAD Y MAGNETISMO
+        [HttpPost("ConductividadMagnetismo")]
+        public IActionResult ConductividadMagnetismo([FromBody] Cond_Magne datos)
+        {
+            int tiSue = ObtenerTipoSuelo();
+            if (tiSue == -1)
+            {
+                return BadRequest("Tipo de suelo no proporcionado.");
             }
-
-            // Si no se predijo ningún mineral
-            if (string.IsNullOrEmpty(mineralPredicho))
+            var hTiSue = new Dictionary<int, Dictionary<string, Cond_Magne>>()
             {
-                return BadRequest("No se pudo predecir un mineral.");
+                { 1, hechos.Lateritas },
+                { 2, hechos.Glaciales }
+            };
+            var hSelec = MotorInferencia.SeleccionarHechos(tiSue, hTiSue);
+            return MotorInferencia.CalcularInferencia(datos, hSelec);
+        }
+
+        // MOTOR DE INFERENCIA : POTENCIAL HIDROTERMAL
+        [HttpPost("PotencialHidrotermal")]
+        public IActionResult PotencialHidrotermal([FromBody] Pot_Hidro datos)
+        {
+            int tiSue = ObtenerTipoSuelo();
+            if (tiSue == -1)
+            {
+                return BadRequest("Tipo de suelo no proporcionado.");
             }
-
-            // Retornar el mineral predicho y su puntaje
-            return Ok(new
+            var hTiSue = new Dictionary<int, Dictionary<string, Pot_Hidro>>()
             {
-                mineral = mineralPredicho,
-                puntaje = puntajeMaximo
-            });
+                { 1, hechos.Andosoles },
+                { 2, hechos.Entisoles }
+            };
+            var hSelec = MotorInferencia.SeleccionarHechos(tiSue, hTiSue);
+            return MotorInferencia.CalcularInferencia(datos, hSelec);
         }
 
-
-        // Método de ejemplo donde podemos usar las listas en la lógica
-        [HttpGet("index")]
-        public IActionResult Index()
+        private int ObtenerTipoSuelo()
         {
-            // Ejemplo de cómo puedes usar las listas para realizar operaciones internas
-            var totalPlomo = hechos.Sedimentarios[0].DensidadDelSuelo + hechos.Vertisoles[0].DensidadDelSuelo;
-
-            // Aquí, puedes hacer cualquier operación que necesites usando las listas internas.
-            // Luego puedes devolver un mensaje con el resultado de esas operaciones o de cualquier lógica interna.
-            return Ok(new
+            //string tiSueHead = Request.Headers["tip_sue"];
+            string tiSueHead = "1";
+            if (string.IsNullOrEmpty(tiSueHead) || !int.TryParse(tiSueHead, out int tipoSuelo))
             {
-                mensaje = "Bienvenido a la API",
-                totalPlomo = totalPlomo
-            });
-        }
-
-        private double CalcularCompatibilidad(Act_Geome datosUsuario, Act_Geome hecho)
-        {
-            double puntaje = 0.0;
-
-            // Comparar propiedades clave, por ejemplo, usando una fórmula de diferencia normalizada o alguna otra estrategia
-            puntaje += CompararPropiedades(datosUsuario.PresionGeologica, hecho.PresionGeologica);
-            puntaje += CompararPropiedades(datosUsuario.DensidadDelSuelo, hecho.DensidadDelSuelo);
-            puntaje += CompararPropiedades(datosUsuario.ProfundidadDeFisuras, hecho.ProfundidadDeFisuras);
-            puntaje += CompararPropiedades(datosUsuario.IndiceDeFracturamiento, hecho.IndiceDeFracturamiento);
-            puntaje += CompararPropiedades(datosUsuario.ProfundidadDePerforacion, hecho.ProfundidadDePerforacion);
-
-            return puntaje;
-        }
-
-        // Método para comparar dos valores y calcular su "compatibilidad" (por ejemplo, mediante una normalización de la diferencia)
-        private double CompararPropiedades(double valorUsuario, double valorHecho)
-        {
-            // La diferencia absoluta puede ser un simple método de comparación
-            return 1.0 / (1 + Math.Abs(valorUsuario - valorHecho));
-        }
-        private string ObtenerMineral(Act_Geome hecho)
-        {
-            // Se asignan los minerales en base a los valores de las propiedades
-            if (hecho.PresionGeologica == 2000.0 && hecho.DensidadDelSuelo == 2.6)
-                return "Plomo";
-            if (hecho.PresionGeologica == 2200.0 && hecho.DensidadDelSuelo == 2.7)
-                return "Zinc";
-            if (hecho.PresionGeologica == 2400.0 && hecho.DensidadDelSuelo == 2.9)
-                return "Tungsteno";
-            if (hecho.PresionGeologica == 1500.0 && hecho.DensidadDelSuelo == 2.3)
-                return "Carbón";
-            return "Desconocido";  // En caso de no encontrar el mineral
+                return -1;
+            }
+            return tipoSuelo;
         }
     }
 }
