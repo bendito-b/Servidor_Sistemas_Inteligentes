@@ -72,7 +72,7 @@ namespace WebApi.Models
         // REGLA COMPARACIÓN : Coteja las características para obtener la compatibilidad
         private static double CompararPropiedades(object valorDatos, object valorHecho)
         {
-            if (valorDatos is IComparable comparableDatos && valorHecho is IComparable comparableHecho)
+            if (valorDatos is IComparable && valorHecho is IComparable)
             {
                 double val1 = Convert.ToDouble(valorDatos);
                 double val2 = Convert.ToDouble(valorHecho);
