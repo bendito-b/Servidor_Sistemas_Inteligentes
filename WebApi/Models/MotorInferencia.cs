@@ -72,7 +72,6 @@ namespace WebApi.Models
             {
                 double val1 = Convert.ToDouble(valorDatos);
                 double val2 = Convert.ToDouble(valorHecho);
-
                 // Penaliza fuertemente las grandes diferencias, enfatiza más las similitudes
                 return Math.Exp(-Math.Abs(val1 - val2) * 2);
             }
