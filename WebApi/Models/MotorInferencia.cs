@@ -64,10 +64,7 @@ namespace WebApi.Models
             {
                 var valorDatos = propiedad.GetValue(datos);
                 var valorHecho = propiedad.GetValue(hecho);
-                if (valorDatos is IComparable && valorHecho is IComparable)
-                {
-                    puntaje += CompararPropiedades(valorDatos, valorHecho);
-                }
+                puntaje += CompararPropiedades(valorDatos, valorHecho);
             }
             return puntaje;
         }
