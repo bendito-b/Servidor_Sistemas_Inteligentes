@@ -89,7 +89,7 @@ namespace WebApi.Controllers
         private int ObtenerTipoSuelo()
         {
             //string tiSueHead = Request.Headers["tip_sue"];
-            string tiSueHead = "1";
+            string tiSueHead = "2";
             if (string.IsNullOrEmpty(tiSueHead) || !int.TryParse(tiSueHead, out int tipoSuelo))
             {
                 return -1;
@@ -173,35 +173,35 @@ Oxisoles
 
 Lateritas
 {
-  "conductividadElectrica": 0.05,
+  "conductividadElectrica": 1.2,
   "intensidadMagnetica": 1.8,
   "porosidad": 27,
-  "susceptibilidadMagnetica": 0.0023,
+  "susceptibilidadMagnetica": 2.1,
   "contenidoMagnetico": 15
 }
 
 {
-  "conductividadElectrica": 0.12,
-  "intensidadMagnetica": 1.4,
+  "conductividadElectrica": 1.60,
+  "intensidadMagnetica": 1.1,
   "porosidad": 22,
-  "susceptibilidadMagnetica": 0.0019,
+  "susceptibilidadMagnetica": 1.7,
   "contenidoMagnetico": 10
 }
 
 Glaciales
 {
-  "conductividadElectrica": 0.06,
+  "conductividadElectrica": 1.01,
   "intensidadMagnetica": 1.5,
   "porosidad": 18,
-  "susceptibilidadMagnetica": 0.0020,
+  "susceptibilidadMagnetica": 3.2,
   "contenidoMagnetico": 12
 }
 
 {
-  "conductividadElectrica": 0.35,
+  "conductividadElectrica": 1.72,
   "intensidadMagnetica": 2.1,
   "porosidad": 14,
-  "susceptibilidadMagnetica": 0.0032,
+  "susceptibilidadMagnetica": 2.3,
   "contenidoMagnetico": 30
 }
 

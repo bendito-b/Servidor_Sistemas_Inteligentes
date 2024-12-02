@@ -55,19 +55,19 @@
             // CONDUCTIVIDAD Y MAGNETISMO: Diccionario para Tipo de Suelo Lateritas    
             Lateritas = new Dictionary<string, Cond_Magne>
             {
-                { "Cobre", new Cond_Magne(0.017, 1.2, 25, 0.0015, 7) }, // Ω·m, A/m, %
-                { "Hierro", new Cond_Magne(0.3, 2.7, 17, 0.003, 35) },
-                { "Cobalto", new Cond_Magne(0.08, 2.0, 20, 0.0028, 12) },
-                { "Níquel", new Cond_Magne(0.1, 1.5, 30, 0.0020, 15) }
+                { "Cobre", new Cond_Magne(1.72, 1.2, 25, 1.5, 7) }, // Ω·m, A/m, %
+                { "Hierro", new Cond_Magne(1.33, 2.7, 17, 3.0, 35) },
+                { "Cobalto", new Cond_Magne(0.60, 2.0, 20, 2.5, 12) },
+                { "Níquel", new Cond_Magne(0.97, 1.5, 30, 2.0, 15) }
             };
 
             // CONDUCTIVIDAD Y MAGNETISMO: Diccionario para Tipo de Suelo Glaciales    
             Glaciales = new Dictionary<string, Cond_Magne>
             {
-                { "Cobre", new Cond_Magne(0.02, 1.0, 15, 0.001, 5) },
-                { "Hierro", new Cond_Magne(0.5, 2.3, 12, 0.0025, 40) },
-                { "Cobalto", new Cond_Magne(0.12, 1.7, 19, 0.0037, 14) },
-                { "Níquel", new Cond_Magne(0.12, 1.2, 24, 0.0018, 20) }
+                { "Cobre", new Cond_Magne(2.14, 1.0, 15, 1.0, 5) },
+                { "Hierro", new Cond_Magne(1.86, 2.3, 12, 2.5, 40) },
+                { "Cobalto", new Cond_Magne(0.95, 1.7, 19, 3.7, 14) },
+                { "Níquel", new Cond_Magne(1.30, 1.2, 24, 1.8, 20) }
             };
 
             // POTENCIAL HIDROTERMAL: Diccionario para Tipo de Suelo Andosoles    
