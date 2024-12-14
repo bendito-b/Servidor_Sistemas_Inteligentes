@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import Constants from "expo-constants";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
-  Button,
   Pressable,
   ScrollView,
+  Platform,
 } from "react-native";
 
 export default function App() {
@@ -199,8 +200,10 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#000",
     alignItems: "center",
+    paddingTop: Constants.statusBarHeight,
+    paddings: 12,
   },
   header: {
     fontSize: 24,
@@ -208,6 +211,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonContainer: {
+    alignItems: "center",
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
@@ -215,7 +219,7 @@ const styles = StyleSheet.create({
   soilButton: {
     backgroundColor: "#4CAF50",
     padding: 10,
-    margin: 10,
+    margin: 9,
     width: "45%",
     alignItems: "center",
     borderRadius: 5,
@@ -244,13 +248,16 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   label: {
+    color: "#f0f0f0",
     fontSize: 14,
     marginBottom: 5,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
+    placeholderTextColor: "#888888",
+    color: "#f0f0f0",
+    borderWidth: 2,
+    borderColor: "#2196F3",
+    borderRadius: 9,
     padding: 8,
     fontSize: 14,
   },
