@@ -168,7 +168,6 @@ export default function App() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>Header: {headerValue}</Text>
       {!selectedSoil ? (
         <View style={styles.buttonContainer}>
           {soils.map((soil, index) => (
