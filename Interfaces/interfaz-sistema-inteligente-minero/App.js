@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Constants from "expo-constants";
 import {
   StyleSheet,
   Text,
@@ -305,13 +304,13 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#000",
     alignItems: "center",
-    paddingTop: Constants.statusBarHeight,
+    justifyContent: "center", // Centrar contenido vertical y horizontalmente
   },
   buttonContainer: {
     alignItems: "center",
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    justifyContent: "center", // Asegurar que estén centrados horizontalmente
   },
   soilButton: {
     backgroundColor: "#4CAF50",
