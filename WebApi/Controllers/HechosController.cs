@@ -88,8 +88,7 @@ namespace WebApi.Controllers
 
         private int ObtenerTipoSuelo()
         {
-            //string tiSueHead = Request.Headers["tip_sue"];
-            string tiSueHead = "2";
+            string tiSueHead = Request.Headers["tip_sue"];
             if (string.IsNullOrEmpty(tiSueHead) || !int.TryParse(tiSueHead, out int tipoSuelo))
             {
                 return -1;
